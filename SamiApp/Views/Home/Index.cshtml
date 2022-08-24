@@ -1,0 +1,28 @@
+﻿@model IEnumerable<HomePageViewModel>
+@{ var name = ViewBag.usernae_secc;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        textarea {
+            resize: none;
+        }
+    </style>
+</head>
+<body>
+  
+    <h1>content</h1>
+    @foreach (var item in Model)
+    {
+        <p><label for="w3review">@item.Name</label></p>
+
+<textarea readonly id="w3review" name="w3review" rows="4" cols="50">
+ @item.Content
+</textarea>
+        <hr />
+    }
+  
+
+</body>
+</html>

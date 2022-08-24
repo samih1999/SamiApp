@@ -1,0 +1,35 @@
+﻿@model LoginViewmodel
+@{
+    ViewData["Title"] = "Login";
+    Layout = "_Layout";
+}
+
+
+<div class="container">
+    <h1>Login</h1>
+    @Html.ValidationSummary()
+    <form asp-action="Login" asp-controller="Home" method="post">
+
+        <div class="logindiv">
+
+            <div class="form-group col-sm-12">
+    <label for="Username" class="col-lg-3 control-label"><b>Email</b></label>
+    <br>
+    <input type="email" placeholder="Enter Email" name="Username" id="Username" required>
+</div>
+
+            <div class="form-group col-sm-12">
+                <label for="Password" class="col-lg-3 control-label"><b>Password</b></label>
+                <br>
+                <input type="password" placeholder="Enter Password" name="Password" id="Password" required>
+            </div>
+
+            <div class="form-group">
+                <div class="col-sm-12 btn-submit">
+                    <button type="submit" class="btn btn-success">Login</button>
+                    <a asp-action="Login" asp-controller="Home">Don't have an account?Click to Register</a>
+
+                </div>
+            </div>
+        </div>
+    </form>
