@@ -57,5 +57,13 @@ namespace SamiApp.Services.Implementation
             return e;
         }
 
+        public string GetRole(string email)
+        {
+            var user = GetById(email);
+            if (user !=null)
+            return user.Role;
+
+            return "usernotfound";
+        }
     }
 }

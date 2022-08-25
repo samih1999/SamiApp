@@ -14,5 +14,6 @@ namespace SamiApp.Services
         Register logcheck(string username, string password);
         Task CreateAsync(Register reg);
         Register GetById(string regmail);
+        string GetRole(string email);
     }
 }

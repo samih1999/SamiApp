@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using AspNetCoreHero.ToastNotification.Abstractions;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -17,13 +18,16 @@ namespace SamiApp.Controllers
 {
     public class HomeController : Controller
     {
+        private readonly INotyfService _notyf;
+
         private readonly IHomePage _homePage;
         public readonly ILoginService _loginService;
         private readonly ILogger<HomeController> _logger;
         private readonly IRegisterService _Register;
 
-        public HomeController(IHomePage homePage, ILoginService loginService, ILogger<HomeController> logger, IRegisterService register)
+        public HomeController(INotyfService notyf, IHomePage homePage, ILoginService loginService, ILogger<HomeController> logger, IRegisterService register)
         {
+            _notyf = notyf;
             _homePage = homePage;
             _loginService = loginService;
             _logger = logger;
@@ -115,6 +119,8 @@ namespace SamiApp.Controllers
         {
             if (ModelState.IsValid)
             {
+
+               
               
                 const string id = "id";
                 const string usernae_secc = "usernae_secc";
@@ -126,8 +132,10 @@ namespace SamiApp.Controllers
                 //var auth = _userContext.User.Where(x => x.UerName == UserName && x.Password == Password).SingleOrDefault();
                 if (check != null)
                 {
+                   
                     HttpContext.Session.SetString(usernae_secc, check.Email.ToString());
                     HttpContext.Session.SetString(id, Convert.ToString(check.Id.ToString()));
+                    if (_Register.GetRole(Username) == "Admin") return RedirectToAction("Content", "Home");
                     return RedirectToAction("Index");
                 }
 
@@ -213,21 +221,29 @@ namespace SamiApp.Controllers
 
 
         public IActionResult Edit(int id)
-        {
-            ViewBag.usernae_secc = HttpContext.Session.GetString("usernae_secc");
-            var employee = _homePage.GetById(id);
-            if (employee == null)
+        { var employee = _homePage.GetById(id);
+           
+                ViewBag.usernae_secc = HttpContext.Session.GetString("usernae_secc");
+
+            if (_Register.GetRole(ViewBag.usernae_secc) == "Admin")
             {
-                return NotFound();
+                if (employee == null)
+                {
+                    return NotFound();
+                }
+                var model = new HomePageViewModel()
+                {
+                    Id = employee.Id,
+                    Content = employee.Content,
+                    Email = employee.Email,
+                    Name = employee.Name
+                };
+        
+                return View(model);
+
             }
-            var model = new HomePageViewModel()
-            {
-                Id = employee.Id,
-                Content = employee.Content,
-                Email = employee.Email,
-                Name = employee.Name
-            };
-            return View(model);
+         
+            return NotFound();
         }
 
 
@@ -235,8 +251,10 @@ namespace SamiApp.Controllers
         public async Task<IActionResult> Edit(HomePageViewModel model)
         {
             ViewBag.usernae_secc = HttpContext.Session.GetString("usernae_secc");
+
             if (ModelState.IsValid)
             {
+                if (_Register.GetRole(ViewBag.usernae_secc) == "Admin") { 
                 var employee = _homePage.GetById(model.Id);
                 if (employee == null)
                 {
@@ -249,8 +267,11 @@ namespace SamiApp.Controllers
 
 
                 await _homePage.UpdateAsync(employee);
-                return RedirectToAction(nameof(Index));
+                    _notyf.Success("edited ");
+
+                    return RedirectToAction(nameof(Index));}
             }
+            _notyf.Error("not edited");
             return View();
         }
 

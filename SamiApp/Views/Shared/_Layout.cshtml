@@ -56,17 +56,18 @@
                         {
                             <li class="nav-item">
                                 <a class="nav-link " asp-controller="Home" asp-action="Content">All Contents</a>
-                            </li>}
-                        </ul>
+                            </li>
+}
+                    </ul>
                 </div>
                 @if (name == null)
                 {
                     <partial name="_LoginPartial" />
                 }
-            else
-            {
-            <a class="btn btn-colored btn-flat btn-theme-colored mt-15 mt-sm-10 pt-10 pb-10" asp-controller="Home" asp-action="Logout">logout </a>
-            }
+                else
+                {
+                    <a class="btn btn-colored btn-flat btn-theme-colored mt-15 mt-sm-10 pt-10 pb-10" asp-controller="Home" asp-action="Logout">logout </a>
+                }
 
 
 
@@ -154,6 +155,7 @@
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+    @await Component.InvokeAsync("Notyf")
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 

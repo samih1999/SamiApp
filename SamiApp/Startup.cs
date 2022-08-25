@@ -1,3 +1,5 @@
+using AspNetCoreHero.ToastNotification;
+using AspNetCoreHero.ToastNotification.Extensions;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -61,6 +63,8 @@ namespace SamiApp
             services.AddScoped<ILoginService, LoginService>();
             services.AddScoped<IRegisterService, RegService>();
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            services.AddNotyf(config => { config.DurationInSeconds = 10; config.IsDismissable = true; config.Position = NotyfPosition.BottomRight; });
+
 
         }
 
@@ -85,7 +89,8 @@ namespace SamiApp
             app.UseSession();
             app.UseAuthentication();
             app.UseAuthorization();
-           
+            app.UseNotyf();
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllerRoute(
