@@ -11,18 +11,57 @@
     </style>
 </head>
 <body>
-  
-    <h1>content</h1>
-    @foreach (var item in Model)
-    {
-        <p><label for="w3review">@item.Name</label></p>
 
-<textarea readonly id="w3review" name="w3review" rows="4" cols="50">
- @item.Content
-</textarea>
-        <hr />
-    }
-  
+    <section class="section-testimonials section-t8 nav-arrow-a">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="title-wrap d-flex justify-content-between">
+                        <div class="title-box">
+                            <h2 class="title-a">Contents</h2>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="testimonial-carousel" class="swiper">
+                <div class="swiper-wrapper">
+                    @foreach (var item in Model)
+                    {
+                        <div class="carousel-item-a swiper-slide">
+                            <div class="testimonials-box">
+                                <div class="row">
+                                    <div class="col-sm-12 col-md-6">
+                                    </div>
+
+                                    <div class="col-sm-12 col-md-6">
+                                        <div class="testimonial-ico">
+                                            <i class="bi bi-chat-quote-fill"></i>
+                                        </div>
+                                        <div class="testimonials-content">
+                                            <p class="testimonial-text">
+                                                @item.Content
+                                            </p>
+                                        </div>
+                                        <div class="testimonial-author-box">
+                                            <h5 class="testimonial-author">@item.Email</h5>
+                                        </div>
+                                    </div>
+
+
+                                </div>
+                            </div>
+                        </div>
+                    }<!-- End carousel item -->
+
+
+                </div>
+                <div class="testimonial-carousel-pagination carousel-pagination"></div>
+
+            </div>
+    </section><!-- End Testimonials Section -->
+
+
 
 </body>
 </html>
